@@ -197,14 +197,19 @@ var NewView = Backbone.View.extend({
                 that.audio = sound.audio;
                 sound.audio.play();
 
-                sound.audio.addEventListener("ended", onEnded);
-
-                function onEnded(){
-                    sound.audio.removeEventListener("ended", onEnded);
-
+                $(sound.audio).off('ended').on('ended', function (){
                     sound.audio.currentTime = 0;
                     callback();
-                }
+                })
+
+                // sound.audio.addEventListener("ended", onEnded);
+
+                // function onEnded(){
+                //     sound.audio.removeEventListener("ended", onEnded);
+
+                //     sound.audio.currentTime = 0;
+                //     callback();
+                // }
 
 
             }else{
