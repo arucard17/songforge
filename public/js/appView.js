@@ -20,9 +20,6 @@ var AppView = Backbone.View.extend({
         // Contenedor que se actualizará con el cambio de vista
         this.$container = $('#content');
 
-        // InitMaterial
-        $.material.init();
-
         // Cargo los templates
         this.templateHome = _.template($('#tmpl-home').html());
         this.templateNew = _.template($('#tmpl-new').html());
@@ -80,6 +77,9 @@ var AppView = Backbone.View.extend({
 
     render: function(tmpl) {
         this.$container.html(tmpl);
+        
+        // InitMaterial
+        $.material.init();
     },
 
     pushData: function(url, data, onSuccess, method, dataType) {

@@ -2,6 +2,7 @@ body {
   background-color: #eee;
 }
 #content {
+  height: 31em;
   margin-top: 30px;
 }
 #btnAdd {
@@ -17,9 +18,9 @@ body {
   transition: 0.2s all cubic-bezier(0.4, 0, 0.2, 1);
 }
 #btnAdd.active i {
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+  -webkit-transform: rotate(10deg);
+  -ms-transform: rotate(10deg);
+  transform: rotate(10deg);
 }
 .noselect {
   cursor: default;

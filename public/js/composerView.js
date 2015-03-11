@@ -24,9 +24,9 @@ var ComposerView = Backbone.View.extend({
         this.templateSound = _.template($('#tmpl-sound-element').html());
         this.templatePanel = _.template($('#tmpl-panel-element').html());
 
-        $('.soundsContainer').css('display', 'block').addClass('animated bounceInDown');
-        $('.songContainer').css('display', 'block').addClass('animated bounceInDown');
-        $('.page-header').css('display', 'block').addClass('animated bounceInLeft');
+        $('.soundsContainer').css('display', 'block').addClass('animated bounceInLeft');
+        $('.songContainer').css('display', 'block').addClass('animated bounceInRight');
+        $('.page-header').css('display', 'block').addClass('animated bounceInDown');
 
         $('#play').on('click', $.proxy(this.onPlay, this));
         this.$save.on('click', $.proxy(this.onSave, this));
@@ -286,9 +286,9 @@ var ComposerView = Backbone.View.extend({
     },
 
     remove: function(){
-        $('.soundsContainer').removeClass('animated bounceInDown').addClass('animated bounceOutUp');
-        $('.songContainer').removeClass('animated bounceInDown').addClass('animated bounceOutUp');
-        $('.page-header').removeClass('animated bounceInDown').addClass('animated bounceOutLeft');
+        $('.soundsContainer').removeClass('animated bounceInDown').addClass('animated bounceOutLeft');
+        $('.songContainer').removeClass('animated bounceInDown').addClass('animated bounceOutRight');
+        $('.page-header').removeClass('animated bounceInDown').addClass('animated bounceOutUp');
     }
 
 });
