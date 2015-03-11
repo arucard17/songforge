@@ -202,16 +202,6 @@ var NewView = Backbone.View.extend({
                     callback();
                 })
 
-                // sound.audio.addEventListener("ended", onEnded);
-
-                // function onEnded(){
-                //     sound.audio.removeEventListener("ended", onEnded);
-
-                //     sound.audio.currentTime = 0;
-                //     callback();
-                // }
-
-
             }else{
                 callback();
             }
