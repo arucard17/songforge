@@ -1,3 +1,35 @@
+function asyncLoop(iterations, func, callback) {
+    var index = 0;
+    var done = false;
+    var loop = {
+        next: function() {
+            if (done) {
+                return;
+            }
+
+            if (index < iterations) {
+                index++;
+                func(loop);
+
+            } else {
+                done = true;
+                callback();
+            }
+        },
+
+        iteration: function() {
+            return index - 1;
+        },
+
+        break: function() {
+            done = true;
+            callback();
+        }
+    };
+    loop.next();
+    return loop;
+}
+
 
 var NewView = Backbone.View.extend({
     
@@ -8,7 +40,7 @@ var NewView = Backbone.View.extend({
         this.secuencia = [];
         this.audio = null; 
 
-        this.status = false;
+        this.isPlaying = false;
 
         this.path = "/sound/";
 
@@ -99,10 +131,14 @@ var NewView = Backbone.View.extend({
     },
 
     addSound: function(sound){
-        sound.audio = new Audio();
-        sound.audio.src = this.path + sound.file;
-        sound.$el = this.addElementPanel(sound);
-        this.secuencia.push(sound);
+        if(!this.isPlaying){
+            sound.audio = new Audio();
+            sound.audio.autoplay = false;
+            sound.audio.src = this.path + sound.file;
+            sound.$el = this.addElementPanel(sound);
+
+            this.secuencia.push(sound);
+        }
     },
   
     onRemovePanel: function(e){
@@ -111,7 +147,7 @@ var NewView = Backbone.View.extend({
 
         for(var i in this.secuencia){
             if(this.secuencia[i].id == id){
-                this.secuencia.slice(i, 1);
+                this.secuencia.splice(i, 1);
             }
         }
 
@@ -159,15 +195,19 @@ var NewView = Backbone.View.extend({
         }else{
             $play.removeClass('active');
             $('i' ,$play).removeClass().addClass('mdi-av-play-arrow');
+            $('.active', this.$panels).removeClass('active');
         }
     },
     
     pauseAudio: function(){
         this.changeStatusPlay('pause');
         
-        this.status = false;
-        this.audio.pause();
-        // this.audio = null;
+        this.isPlaying = false;
+        if(this.audio){
+            this.audio.pause();
+            this.audio.currentTime = 0;
+            this.audio = null;
+        }
     },
 
     playAudio: function (){
@@ -175,10 +215,11 @@ var NewView = Backbone.View.extend({
         var that = this;
         this.changeStatusPlay('play');
 
-        this.status = true;
+        this.isPlaying = true;
 
-        async.each(this.secuencia, function(sound, callback) {
-            if(that.status){
+        async.eachSeries(this.secuencia, function(sound, callback) {
+            
+            if(that.isPlaying){
 
                 sound.$el.siblings().removeClass('active');
                 sound.$el.addClass('active');
@@ -187,14 +228,14 @@ var NewView = Backbone.View.extend({
                 that.audio = sound.audio;
                 sound.audio.play();
 
-                sound.audio.addEventListener("ended", onEnd);
+                sound.audio.addEventListener("ended", function(){
+                    sound.audio.removeEventListener("ended");
 
-                function onEnd(){
-                    sound.audio.removeEventListener("ended", onEnd);
+                    console.log(sound.audio.duration);
+                    sound.audio.currentTime = 0;
                     callback();
-                }
-                // setTimeout(function (){
-                // }, sound.audio.duration);
+                });
+
 
             }else{
                 callback();
