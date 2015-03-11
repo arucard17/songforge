@@ -1,0 +1,16 @@
+{
+  "name": "songforge",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "bootstrap-material-design": "~0.2.2",
+    "bootstrap": "3.2.0",
+    "backbone": "~1.1.2",
+    "snackbarjs": "~1.0.0",
+    "async": "~0.9.2"
+  }
+}
