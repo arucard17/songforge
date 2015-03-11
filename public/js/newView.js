@@ -186,10 +186,15 @@ var NewView = Backbone.View.extend({
                 sound.audio.volume = that.control.val / 100;
                 that.audio = sound.audio;
                 sound.audio.play();
-                
-                setTimeout(function (){
+
+                sound.audio.addEventListener("ended", onEnd);
+
+                function onEnd(){
+                    sound.audio.removeEventListener("ended", onEnd);
                     callback();
-                }, sound.audio.duration);
+                }
+                // setTimeout(function (){
+                // }, sound.audio.duration);
 
             }else{
                 callback();
