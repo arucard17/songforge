@@ -20,9 +20,18 @@ var HomeView = Backbone.View.extend({
 
         this.$tbody.empty();
 
-        $.each(data, function(el) {
-            that.$tbody.append(that.templateRow(el));
+        _.each(data, function(el) {
+            var $el = $(that.templateRow(el)).appendTo(that.$tbody);
+            $('a', $el).on('click', $.proxy(that.onClick, that));
         });
+    },
+
+    onClick: function(e){
+        e.preventDefault();
+
+        var id = $(e.currentTarget).data('id');
+        
+        app.router.navigate("/"+ id, {trigger: true, replace: true});
     },
 
     remove: function(){

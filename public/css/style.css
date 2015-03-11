@@ -63,6 +63,9 @@ body {
   height: 250px;
   overflow: auto;
 }
+.songContainer .panel-footer {
+  padding: 5px 15px;
+}
 .songContainer.active .panel-element:hover #close {
   -webkit-animation-name: fadeOut;
   animation-name: fadeOut;
@@ -142,11 +145,16 @@ body {
   width: 30%;
   margin-left: 9px;
   min-width: 100px;
+  display: inline-block;
 }
 .songContainer #play {
   position: relative;
   display: block;
   margin: -54px auto 0px auto;
+}
+.songContainer #save {
+  display: inline-block;
+  margin-top: -40px;
 }
 .header-new {
   display: none;

@@ -4,6 +4,7 @@
 module.exports = function (sequelize, DataTypes) {
 
   var Composition = sequelize.define('Composition', {
+    id: DataTypes.STRING,
     author: DataTypes.STRING,
     sequence: DataTypes.STRING
   }, {

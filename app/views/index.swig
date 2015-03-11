@@ -17,6 +17,7 @@
                     <table class="table table-striped table-hover ">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Autor</th>
                                 <th>Fecha</th>
                                 <th>Play</th>
@@ -32,12 +33,13 @@
 
     <script type="jquery/template" id="tmpl-row">
         <tr>
+            <td><%=id %></td>
             <td><%=author %></td>
-            <td><%=createdAt %></td>
+            <td><%= new Date(createdAt) %></td>
             <td>
-                <button class="btn btn-fab-mini btn-raised btn-sm btn-success">
+                <a href="#" data-id="<%=id %>" class="btn btn-fab btn-fab-mini btn-raised btn-sm btn-success">
                     <i class="mdi-av-play-arrow"></i>
-                </button>
+                </a>
             </td>
         </tr>
     </script>
@@ -69,7 +71,7 @@
                         <button id="play" class="btn btn-fab btn-raised btn-success">
                             <i class="mdi-av-play-arrow"></i>
                         </button>
-                        <audio style="display:none" id="my-audio" src="http://example.com/somefile.mp3"></audio>
+                        <button id="save" class="btn btn-primary btn-raised pull-right">Guardar<div class="ripple-wrapper"></button>
                     </div>
                 </div>
             </div>

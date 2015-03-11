@@ -1,8 +1,10 @@
-var NewView = Backbone.View.extend({
+var ComposerView = Backbone.View.extend({
     
     events: {},
 
-    initialize: function() {            
+    initialize: function(id) {            
+
+        var that = this;
 
         this.secuencia = [];
         this.audio = null; 
@@ -11,8 +13,13 @@ var NewView = Backbone.View.extend({
 
         this.path = "/sound/";
 
+        this.model = {
+            id : 0
+        };
+
         this.$sounds = $('.soundsContainer .panel-body');
         this.$panels = $('.songContainer .panel-body');
+        this.$save = $('#save');
 
         this.templateSound = _.template($('#tmpl-sound-element').html());
         this.templatePanel = _.template($('#tmpl-panel-element').html());
@@ -22,15 +29,63 @@ var NewView = Backbone.View.extend({
         $('.page-header').css('display', 'block').addClass('animated bounceInLeft');
 
         $('#play').on('click', $.proxy(this.onPlay, this));
+        this.$save.on('click', $.proxy(this.onSave, this));
 
-        this.loadData();
-        this.isBtnActive();
-        this.setupControl();
+        if(id){
+            this.loadModel(id, function (){
+                that.isBtnActive();
+                that.setupControl();
+                that.updateSaveStatus();
+            });
+        }else{
+            this.loadData();
+            this.isBtnActive();
+            this.setupControl();
+            this.updateSaveStatus();
+        }
 
+    },
+
+    updateSaveStatus: function(){
+        if(this.secuencia.length > 0)
+            this.$save.prop('disabled', false);
+        else
+            this.$save.prop('disabled', true);
     },
 
     loadData: function(){
         app.pushData('/api/compositions', {}, $.proxy(this.render, this), 'GET');
+    },
+
+    loadModel: function(id, cb){
+        var that = this;
+        app.pushData('/api/composition', {"id": id}, function(data){
+            
+            // Muestro los sonidos
+            that.render(data.sounds);
+
+            // Cargo la secuencia
+            that.model.id = data.model.id;
+            that.model.author = data.model.author;
+
+            data.model.sequence = data.model.sequence.split(",");
+
+            for(var i in data.model.sequence){
+                that.renderOne(data.model.sequence[i]);
+            }
+
+            cb();
+
+        }, 'POST');
+
+    },
+
+    renderOne: function(id){
+        var sound = _.find(this.sounds, function(sound){
+            return id == sound.id;
+        });
+
+        this.addSound(_.cloneToDepth(sound));
     },
 
     isBtnActive: function(){
@@ -107,6 +162,7 @@ var NewView = Backbone.View.extend({
             sound.$el = this.addElementPanel(sound);
 
             this.secuencia.push(sound);
+            this.updateSaveStatus();
         }
     },
   
@@ -119,7 +175,7 @@ var NewView = Backbone.View.extend({
                 this.secuencia.splice(i, 1);
             }
         }
-
+        this.updateSaveStatus();
         this.removeElementPanel($el);
 
     },
@@ -210,6 +266,23 @@ var NewView = Backbone.View.extend({
             that.pauseAudio();
         });
 
+    },
+
+    onSave: function(){
+        var that = this;
+        var sec = _.map(this.secuencia, function(el){
+            return el.id;
+        });
+
+        app.pushData('/api/save', { "sequence": sec, "model" : this.model }, function(data){
+            if(data.success){
+                that.model.id = data.id;
+                app.router.navigate("/"+ that.id);
+                $.snackbar({content: "Secuencia guardada", timeout:2000});
+            }else{
+                $.snackbar({content: "Error: "+ data.error, timeout:0});
+            }
+        }, 'POST');
     },
 
     remove: function(){

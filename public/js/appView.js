@@ -70,7 +70,12 @@ var AppView = Backbone.View.extend({
 
     loadCreate: function(){
         this.render(this.templateNew());
-        this.view = new NewView();
+        this.view = new ComposerView();
+    },
+
+    load: function(id){
+        this.render(this.templateNew());
+        this.view = new ComposerView(id);
     },
 
     render: function(tmpl) {
