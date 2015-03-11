@@ -33,6 +33,7 @@
 		<script src="/components/snackbarjs/dist/snackbar.min.js"></script>
 		<script src="/js/dependences/jquery.nouislider.min.js"></script>
 		<script src="/components/async/lib/async.js"></script>
+		<script src="/js/plugins.js"></script>
 
 		<script src="/js/routes.js"></script>
 		<script src="/js/appView.js"></script>

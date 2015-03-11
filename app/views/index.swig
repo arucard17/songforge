@@ -85,7 +85,7 @@
     </script>
 
     <script type="jquery/template" id="tmpl-panel-element">
-        <div data-id="<%=id %>" class="panel-element">
+        <div data-id="<%=_id %>" class="panel-element">
             <p class="text noselect">
                 <%=name.replace(/[0-9]+/,"") %><span class="duracion"><%=name.replace(/[a-zA-Z]+/,"") %></span>
             </p>

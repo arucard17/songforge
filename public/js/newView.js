@@ -1,36 +1,3 @@
-function asyncLoop(iterations, func, callback) {
-    var index = 0;
-    var done = false;
-    var loop = {
-        next: function() {
-            if (done) {
-                return;
-            }
-
-            if (index < iterations) {
-                index++;
-                func(loop);
-
-            } else {
-                done = true;
-                callback();
-            }
-        },
-
-        iteration: function() {
-            return index - 1;
-        },
-
-        break: function() {
-            done = true;
-            callback();
-        }
-    };
-    loop.next();
-    return loop;
-}
-
-
 var NewView = Backbone.View.extend({
     
     events: {},
@@ -126,7 +93,7 @@ var NewView = Backbone.View.extend({
             return id == sound.id;
         });
 
-        this.addSound(sound);
+        this.addSound(_.cloneToDepth(sound));
 
     },
 
@@ -135,6 +102,8 @@ var NewView = Backbone.View.extend({
             sound.audio = new Audio();
             sound.audio.autoplay = false;
             sound.audio.src = this.path + sound.file;
+            sound._id = "panel_" + (this.secuencia.length+1);
+
             sound.$el = this.addElementPanel(sound);
 
             this.secuencia.push(sound);
@@ -146,7 +115,7 @@ var NewView = Backbone.View.extend({
         var id = $el.data('id');
 
         for(var i in this.secuencia){
-            if(this.secuencia[i].id == id){
+            if(this.secuencia[i]._id == id){
                 this.secuencia.splice(i, 1);
             }
         }
@@ -218,7 +187,7 @@ var NewView = Backbone.View.extend({
         this.isPlaying = true;
 
         async.eachSeries(this.secuencia, function(sound, callback) {
-            
+            console.log(sound.$el[0]);
             if(that.isPlaying){
 
                 sound.$el.siblings().removeClass('active');
@@ -228,13 +197,15 @@ var NewView = Backbone.View.extend({
                 that.audio = sound.audio;
                 sound.audio.play();
 
-                sound.audio.addEventListener("ended", function(){
-                    sound.audio.removeEventListener("ended");
+                sound.audio.addEventListener("ended", onEnded);
+
+                function onEnded(){
+                    sound.audio.removeEventListener("ended", onEnded);
 
                     console.log(sound.audio.duration);
                     sound.audio.currentTime = 0;
                     callback();
-                });
+                }
 
 
             }else{
@@ -247,7 +218,7 @@ var NewView = Backbone.View.extend({
                 console.log("Loop is done");
             }
 
-            $('.active', this.$panels).removeClass('active');
+            $('.active', that.$panels).removeClass('active');
             that.pauseAudio();
         });
 
