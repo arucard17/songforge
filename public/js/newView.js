@@ -187,7 +187,7 @@ var NewView = Backbone.View.extend({
         this.isPlaying = true;
 
         async.eachSeries(this.secuencia, function(sound, callback) {
-            console.log(sound.$el[0]);
+            
             if(that.isPlaying){
 
                 sound.$el.siblings().removeClass('active');
@@ -202,7 +202,6 @@ var NewView = Backbone.View.extend({
                 function onEnded(){
                     sound.audio.removeEventListener("ended", onEnded);
 
-                    console.log(sound.audio.duration);
                     sound.audio.currentTime = 0;
                     callback();
                 }
@@ -212,12 +211,6 @@ var NewView = Backbone.View.extend({
                 callback();
             }
         }, function(err) {
-            if(err) {
-                console.log("There was an error" + err);
-            } else {
-                console.log("Loop is done");
-            }
-
             $('.active', that.$panels).removeClass('active');
             that.pauseAudio();
         });
