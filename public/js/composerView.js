@@ -277,7 +277,7 @@ var ComposerView = Backbone.View.extend({
         app.pushData('/api/save', { "sequence": sec, "model" : this.model }, function(data){
             if(data.success){
                 that.model.id = data.id;
-                app.router.navigate("/"+ that.id);
+                app.router.navigate("/"+ that.model.id);
                 $.snackbar({content: "Secuencia guardada", timeout:2000});
             }else{
                 $.snackbar({content: "Error: "+ data.error, timeout:0});
