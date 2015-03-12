@@ -38,6 +38,7 @@
 		<script src="/js/routes.js"></script>
 		<script src="/js/appView.js"></script>
 		<script src="/js/homeView.js"></script>
+		<script src="/js/soundView.js"></script>
 		<script src="/js/composerView.js"></script>
 		<script>
 		    var app = new AppView;

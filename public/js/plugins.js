@@ -1,3 +1,5 @@
+
+// DeepClone
 _.cloneToDepth = _.clone = function(obj, depth) {
   if (typeof obj !== 'object') return obj;
   var clone = _.isArray(obj) ? obj.slice() : _.extend({}, obj);
@@ -8,3 +10,13 @@ _.cloneToDepth = _.clone = function(obj, depth) {
   }
   return clone;
 };
+
+// IsFloat
+function is_float (n) {
+    return +n === n && !!(n % 1);
+}
+
+// Is Int
+function is_int (mixed_var) {
+    return mixed_var === ~~mixed_var;
+}

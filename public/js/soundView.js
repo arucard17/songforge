@@ -1,22 +1,28 @@
 
-var HomeView = Backbone.View.extend({
+var SoundView = Backbone.View.extend({
     
     events: {},
 
     initialize: function() {            
 
-        this.$tbody = $('#tbody_comp');
+        this.$tbody = $('#tbody');
+        this.$modal = $('#modal-sound');
 
-        this.templateRow = _.template($('#tmpl-row').html());
+        this.path = '/sound/';
+
+        // Templates
+        this.templateRow = _.template($('#tmpl-row-sound').html());
 
         //inicializo las variables para el paginador
         this.setpaginator();
 
         this.loadData();
+        this.setupBtn();
+        this.bindEvents();
     },
 
     loadData: function(){
-        app.pushData('/api/compositions', {}, $.proxy(this.handleData, this), 'GET');
+        app.pushData('/api/sounds', {}, $.proxy(this.handleData, this), 'GET');
     },
 
     handleData: function(data){
@@ -25,6 +31,28 @@ var HomeView = Backbone.View.extend({
         // Actualizo el paginador
         this.updatePaginator();
         this.render();
+    },
+
+    bindEvents: function(){
+
+        var that = this;
+
+        // Add Sound
+        $('#addSound').on('click', $.proxy(this.onClickAddSound, this));
+
+
+        // Modal
+        this.$modal.modal({
+            show: false
+        });
+        this.$modal.off('shown.bs.modal').on('shown.bs.modal', function () {
+            $('#name').focus();
+        });
+
+        this.$modal.on('hidden.bs.modal', function (){
+            $('form', that.$modal)[0].reset();
+        });
+
     },
 
     render: function(){
@@ -44,17 +72,30 @@ var HomeView = Backbone.View.extend({
 
     renderOne: function(el){
         var $el = $(this.templateRow(el)).appendTo(this.$tbody);
-        $('a#playSequence', $el).on('click', $.proxy(this.onPlaySequence, this));
-        $('a#removeSequence', $el).on('click', $.proxy(this.onRemoveSequence, this));
+        $('a#playSound', $el).on('click', $.proxy(this.onPlaySound, this));
+        $('a#removeSound', $el).on('click', $.proxy(this.onRemoveSound, this));
     },
 
+    setupBtn: function(){
+        $('#btnAdd').prop('disabled', 'disabled')
+                    .addClass('disabled');
+        // app.changeStatusBtnSound('active');
+
+        $btn = $('#btnAddSound');
+
+        if(!$btn.is('.active')){
+            $btn.addClass('active');
+            $('i', $btn).removeClass('mdi-av-my-library-music')
+                .addClass('mdi-content-reply');
+        }
+
+    },
 
 
     /* ==========================================================================
        Paginador
        ========================================================================== */
 
-    
     setpaginator: function() {
         this.options = {
             nitems: 5, // Numero de items a mostrar por cada pagina
@@ -176,39 +217,85 @@ var HomeView = Backbone.View.extend({
     // Eventos //
     /////////////
 
-    onPlaySequence: function(e){
+    onClickAddSound: function (){
+        this.$modal.modal('show');
+
+        $('#saveSound', this.$modal).off('click').on('click', $.proxy(this.onSaveSound, this));
+    },
+
+    onSaveSound: function(){
+        var that = this;
+
+        var data = {
+            name: $('#name', this.$modal).val(),
+            color: $('#color', this.$modal).val(),
+            file: $('#soundFile', this.$modal)[0].files[0]
+        };
+
+        app.pushXHR('/api/sound', data, 'POST', function(data){
+            if(data.success){
+                app.handleAlert("Se ha creado el nuevo sonido.", 2000);
+                
+                that.handleData(data.sounds);
+
+                that.$modal.modal('hide');
+
+            }else{
+                if(data.errors)
+                    app.handleAlert(data.errors);
+                else
+                    app.handleAlert('Error al registrar el sonido.');
+            }
+        }, function(err){
+            app.handleAlert(err);
+        });
+
+    },
+
+    
+    onPlaySound: function(e){
         e.preventDefault();
 
         var id = $(e.currentTarget).data('id');
         
-        app.router.navigate("/"+ id, {trigger: true, replace: true});
+        var sound = _.find(this.collection, function(elm){
+            return id == elm.id;
+        });
+
+        if(sound){
+            var audio = new Audio();
+            audio.src = this.path + sound.file;
+            audio.play();
+        }else{
+            app.handleAlert('Error al reproducir', 1000);
+        }
+        
     },
 
-    
-    onRemoveSequence: function(e){
+    onRemoveSound: function(e){
         e.preventDefault();
         var that = this;
 
         var id = $(e.currentTarget).data('id');
         // var $el = $(e.currentTarget).parent().parent();
         
-        app.pushData('/api/composition/'+ id, {}, function(data){
+        app.pushData('/api/sound/'+ id, {}, function(data){
 
             if(data.success){
-                that.removeSequence(id);
-                app.handleAlert("Composición eliminado!", 2000);
+                that.removeSound(id);
+                app.handleAlert("Audio eliminado!", 2000);
             }else{
                 if(data.errors)
                     app.handleAlert(data.errors);
                 else
-                    app.handleAlert('Error al eliminar composición');
+                    app.handleAlert('Error al eliminar sonido');
             }
 
         }, "DELETE");
 
     },
 
-    removeSequence: function (id){
+    removeSound: function (id){
         for(var c in this.collection){
             if(this.collection[c].id == id){
                 this.collection.splice(c, 1);
@@ -218,14 +305,20 @@ var HomeView = Backbone.View.extend({
         this.handleData(this.collection);
     },
 
-
+    ///////////////////////////////////
+    // Evento para salir de la vista //
+    ///////////////////////////////////
+    
     remove: function(){
+
         $('.page-header').removeClass('animated bounceInDown')
                          .addClass('animated bounceOutUp');
-        $('.table-container').removeClass('animated bounceInLeft')
+        $('.table-container-sound').removeClass('animated bounceInLeft')
                          .addClass('animated bounceOutLeft');
         $('.pagination').removeClass('animated bounceInLeft')
                          .addClass('animated bounceOutLeft');
+        $('#btnAdd').prop('disabled', false)
+                    .removeClass('disabled');
     }
 
 });

@@ -3,7 +3,7 @@ body {
 }
 
 #content{
-	height: 31em;
+	min-height: 31em;
 	margin-top: 30px;
 }
 
@@ -12,18 +12,39 @@ body {
 	margin-top: 2em;
 	-webkit-transition: 0.2s all cubic-bezier(0.4, 0, 0.2, 1);
 	        transition: 0.2s all cubic-bezier(0.4, 0, 0.2, 1);
-}
-#btnAdd i{
-	top: -1px;
-	font-size: 28px;
-	-webkit-transition: 0.2s all cubic-bezier(0.4, 0, 0.2, 1);
-	        transition: 0.2s all cubic-bezier(0.4, 0, 0.2, 1);
+	
+	i{
+		top: -1px;
+		font-size: 28px;
+		-webkit-transition: 0.2s all cubic-bezier(0.4, 0, 0.2, 1);
+		        transition: 0.2s all cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	&.active i{
+		-webkit-transform: rotate(10deg);
+		    -ms-transform: rotate(10deg);
+		        transform: rotate(10deg);
+	}
+
+	&.disabled {
+	  background-color: #3CC582;
+	}
+
 }
 
-#btnAdd.active i{
-	-webkit-transform: rotate(10deg);
-	    -ms-transform: rotate(10deg);
-	        transform: rotate(10deg);
+#btnAddSound{
+	margin-right: 8px;
+	margin-top: 2em;
+}
+
+#addSound{
+	padding: 10px;
+	font-size: 24px;
+}
+
+.lead{
+	margin-left: 40px;
+	margin-top: -11px;
 }
 
 .noselect {
@@ -199,6 +220,29 @@ body {
 
 .header-new{
 	display: none;
+}
+
+.pagination{
+	margin: auto;
+	position: relative;
+	float: none;
+	display: table;
+}
+
+.pagination>li>a, .pagination>li>span {
+	color:#0f9d58;
+}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+  	z-index: 2;
+  	color: #fff;
+  	cursor: default;
+	background-color:#0f9d58;
+	border-color: #428bca;
+}
+
+.table-container-sound{
+	margin-top: -51px;
 }
 
 
