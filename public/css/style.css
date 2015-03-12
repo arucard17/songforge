@@ -1,5 +1,6 @@
 body {
   background-color: #eee;
+  overflow: hidden;
 }
 #content {
   min-height: 31em;
