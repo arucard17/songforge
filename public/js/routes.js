@@ -4,9 +4,10 @@ var Routes = Backbone.Router.extend({
     routes: {
         "": "home",
         "new/": "create",
+        "new": "create",
         "sound/": "sound",
+        "sound": "sound",
         ":song": "loadSong",
-
     },
 
     home: function() {
