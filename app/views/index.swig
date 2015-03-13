@@ -44,7 +44,7 @@
     <script type="jquery/template" id="tmpl-row">
         <tr>
             <td><%=id %></td>
-            <td><%= new Date(createdAt) %></td>
+            <td><%= moment(createdAt).format('DD/MM/YYYY h:mm:ss') %></td>
             <td>
                 <a href="#" data-id="<%=id %>" id="playSequence" class="btn btn-fab btn-fab-mini btn-raised btn-sm btn-success mdi-av-play-arrow">
                 </a>
