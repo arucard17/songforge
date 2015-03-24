@@ -1,4 +1,13 @@
+# Git Ignore
+
+# NPM Packages
 node_modules/
+
+# Bower Libs
 public/components
-.sass-cache
-#*.mp3
+
+# Audio
+*.mp3
+
+#Sublime Text
+_songforge.sublime-*
