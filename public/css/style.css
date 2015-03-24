@@ -3,12 +3,12 @@ body {
   overflow: hidden;
 }
 #content {
-  min-height: 31em;
+  min-height: 34em;
   margin-top: 30px;
 }
 #btnAdd {
   margin-right: 4em;
-  margin-top: 2em;
+  margin-top: 1em;
   -webkit-transition: 0.2s all cubic-bezier(0.4, 0, 0.2, 1);
   transition: 0.2s all cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -28,7 +28,7 @@ body {
 }
 #btnAddSound {
   margin-right: 8px;
-  margin-top: 2em;
+  margin-top: 1em;
 }
 #addSound {
   padding: 10px;
@@ -200,4 +200,11 @@ body {
 }
 .table-container-sound {
   margin-top: -51px;
+  height: 330px;
+}
+.table-container {
+  height: 330px;
+}
+.page-header {
+  margin: 12px 0 20px;
 }
