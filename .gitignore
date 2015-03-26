@@ -7,7 +7,7 @@ node_modules/
 public/components
 
 # Audio
-*.mp3
+#*.mp3
 
 #Sublime Text
 _songforge.sublime-*
