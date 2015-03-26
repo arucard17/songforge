@@ -4,7 +4,7 @@ var gulp = require('gulp'),
   less = require('gulp-less');
 
 gulp.task('less', function () {
-  gulp.src('./public/css/*.less')
+  gulp.src('./public/css/importer.less')
     .pipe(less())
     .pipe(gulp.dest('./public/css'))
     .pipe(livereload());
