@@ -82,6 +82,8 @@
                 </ul>
             </div>
         </div>
+
+        // Modal
         <div class="modal fade" id="modal-sound">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -146,19 +148,44 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-2 col-lg-offset-2 soundsContainer">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Sonidos</h3>
+        <div class="row ">
+            <div class="col-lg-10 col-lg-offset-1">
+                <div class="navbar navbar-default">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
                     </div>
-                    <div class="panel-body">
+                    <div class="navbar-collapse collapse navbar-responsive-collapse">
+                        <ul class="nav navbar-nav">
+
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 songContainer">
+        </div>
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 songContainer">
                 <div class="panel panel-default">
                     <div class="panel-body">
+                        <div class="partitura">
+                            <div class="pentagram">
+                                <div class="sol"></div>
+                                <div class="line"></div>
+                                 <div class="line"></div>
+                                <div class="line"></div>
+                                 <div class="line"></div>
+                                <div class="line"></div>
+                                 <div class="line"></div>
+                                <div class="line"></div>
+                                 <div class="line"></div>
+                                <div class="line"></div>
+                                 <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-footer">
                         <div id="volumen" class="slider shor"></div>
@@ -172,6 +199,31 @@
         </div>
     </script>
 
+    <script type="jquery/template" id="tmpl-compas">
+        <div class="compas">
+            <span><%=value1 %></span>
+            <span><%=value2 %></span>
+        </div>
+    </script>
+    
+    {# <div class="note note-9 icon song-icon-negra"></div> #}
+
+    <script type="jquery/template" id="tmpl-division">
+        <div class="division note-<%=index%>"></div>
+    </script>
+    
+    <script type="jquery/template" id="tmpl-menu">
+        <li class="dropdown">
+            <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><%=name %> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <% for(var i in notas){ %>
+                    <li class="note-add"> <a title="Negra" data-parent="<%=id %>" data-id="<%=notas[i].id %>"><div class="note icon song-icon-negra"></div></a></li>
+                <% } %>
+            </ul>
+        </li>
+    </script>
+    
+
     <script type="jquery/template" id="tmpl-sound-element">
         <a href="#" data-id="<%=id %>" class="btn btn-primary btn-fab btn-raised sound-element">
             <p class="text">
@@ -181,12 +233,7 @@
     </script>
 
     <script type="jquery/template" id="tmpl-panel-element">
-        <div data-id="<%=_id %>" class="panel-element">
-            <p class="text noselect">
-                <%=name.replace(/[0-9]+/,"") %><span class="duracion"><%=name.replace(/[a-zA-Z]+/,"") %></span>
-            </p>
-            <span id="close" class="btn btn-fab btn-fab-mini btn-raised btn-sm btn-success mdi-navigation-close close-element animated"></span>
-        </div>
+        <div data-id="<%=sound._id %>" class="animated note note-<%=index %> icon song-icon-negra"></div>
     </script>
 
 

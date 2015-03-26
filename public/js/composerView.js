@@ -1,3 +1,6 @@
+
+// Composer View
+
 var ComposerView = Backbone.View.extend({
     
     events: {},
@@ -5,6 +8,70 @@ var ComposerView = Backbone.View.extend({
     initialize: function(id) {            
 
         var that = this;
+
+        this.sounds = [
+            {
+                id: 5,
+                name: 'DO',
+                notas: [
+                    {
+                        id: 1,
+                        file: 'DO_NEGRA.mp3',
+                        type: 1 
+                    }
+                ],
+            },{
+                id: 6,
+                name: 'SI',
+                notas: [
+                    {
+                        id: 1,
+                        file: 'SI_NEGRA.mp3',
+                        type: 1 
+                    }
+                ]
+            },{
+                id: 7,
+                name: 'LA',
+                notas: [
+                    {
+                        id: 1,
+                        file: 'LA_NEGRA.mp3',
+                        type: 1 
+                    }
+                ],
+            },{
+                id: 8,
+                name: 'FA',
+                notas: [
+                    {
+                        id: 1,
+                        file: 'FA_NEGRA.mp3',
+                        type: 1 
+                    }
+                ],
+            },{
+                id: 9,
+                name: 'MI',
+                notas: [
+                    {
+                        id: 1,
+                        file: 'MI_NEGRA.mp3',
+                        type: 1 
+                    }
+                ],
+            },{
+                id: 10,
+                name: 'RE',
+                notas: [
+                    {
+                        id: 1,
+                        file: 'RE_NEGRA.mp3',
+                        type: 1 
+                    }
+                ],
+            }
+        ];
 
         this.secuencia = [];
         this.audio = null; 
@@ -19,10 +86,13 @@ var ComposerView = Backbone.View.extend({
 
         this.$sounds = $('.soundsContainer .panel-body');
         this.$panels = $('.songContainer .panel-body');
+        this.$pentagram = $('.pentagram');
         this.$save = $('#save');
+        this.$navBar = $('.nav.navbar-nav');
 
         this.templateSound = _.template($('#tmpl-sound-element').html());
         this.templatePanel = _.template($('#tmpl-panel-element').html());
+        this.templateMenu = _.template($('#tmpl-menu').html());
 
         $('.soundsContainer').css('display', 'block').addClass('animated bounceInLeft');
         $('.songContainer').css('display', 'block').addClass('animated bounceInRight');
@@ -31,18 +101,22 @@ var ComposerView = Backbone.View.extend({
         $('#play').on('click', $.proxy(this.onPlay, this));
         this.$save.on('click', $.proxy(this.onSave, this));
 
-        if(id){
-            this.loadModel(id, function (){
-                that.isBtnActive();
-                that.setupControl();
-                that.updateSaveStatus();
-            });
-        }else{
-            this.loadData();
-            this.isBtnActive();
-            this.setupControl();
-            this.updateSaveStatus();
+
+        this.loadNav();
+        this.isBtnActive();
+        this.setupControl();
+
+    },
+
+    loadNav: function(){
+
+        this.$navBar.empty();
+
+        for(var n in this.sounds){
+            this.$navBar.append(this.templateMenu(this.sounds[n]));
         }
+
+        $('.note-add a', this.$navBar).on('click', $.proxy(this.onClickSound, this));
 
     },
 
@@ -141,29 +215,45 @@ var ComposerView = Backbone.View.extend({
 
     onClickSound: function(e){
         e.preventDefault();
+
         $el = $(e.currentTarget);
         var id = $el.data('id');
+        var parentId = $el.data('parent');
 
         var sound = _.find(this.sounds, function(sound){
-            return id == sound.id;
+            console.log(parentId, sound);
+            return parentId == sound.id;
         });
 
-        this.addSound(_.cloneToDepth(sound));
+        this.addSound(_.cloneToDepth(sound.notas[0]), sound.id);
 
     },
 
-    addSound: function(sound){
+    addSound: function(sound, parent){
         if(!this.isPlaying){
             sound.audio = new Audio();
             sound.audio.autoplay = false;
             sound.audio.src = this.path + sound.file;
-            sound._id = "panel_" + (this.secuencia.length+1);
+            sound.parent = parent;
+            sound._id = "nota_" + (this.secuencia.length+1);
 
-            sound.$el = this.addElementPanel(sound);
+            console.log(sound, this.secuencia.length+1);
+            sound.$el = this.addElementPanel(sound, (this.secuencia.length+1));
 
             this.secuencia.push(sound);
             this.updateSaveStatus();
         }
+    },
+
+    addElementPanel: function(sound, index){
+        var $el = $(this.templatePanel({"sound": sound, "index": index}));
+
+        // $el.addClass('animated rollIn');
+
+        $el.appendTo($('.line:eq('+ sound.parent +')', this.$pentagram));
+        // $('#close', $el).on('click', $.proxy(this.onRemovePanel, this));
+
+        return $el;
     },
   
     onRemovePanel: function(e){
@@ -178,17 +268,6 @@ var ComposerView = Backbone.View.extend({
         this.updateSaveStatus();
         this.removeElementPanel($el);
 
-    },
-
-    addElementPanel: function(sound){
-        var $el = $(this.templatePanel(sound));
-
-        $el.addClass('animated rollIn');
-
-        $el.appendTo(this.$panels);
-        $('#close', $el).on('click', $.proxy(this.onRemovePanel, this));
-
-        return $el;
     },
 
     removeElementPanel: function($el){
@@ -246,7 +325,7 @@ var ComposerView = Backbone.View.extend({
             
             if(that.isPlaying){
 
-                sound.$el.siblings().removeClass('active');
+                sound.$el.parent().parent().find('.note').removeClass('active');
                 sound.$el.addClass('active');
 
                 sound.audio.volume = that.control.val / 100;
