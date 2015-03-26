@@ -24,7 +24,13 @@ var config = {
       name: 'songforge'
     },
     port: 3000,
-    db: 'mysql://localhost/songforge-test'
+    db: {
+      host: 'localhost',
+      port: '33060',
+      dbname: 'song_db',
+      user: 'homestead',
+      password: 'secret'
+    }
   },
 
   production: {
@@ -33,7 +39,13 @@ var config = {
       name: 'songforge'
     },
     port: 3000,
-    db: 'mysql://localhost/songforge-production'
+    db: {
+      host: 'localhost',
+      port: '33060',
+      dbname: 'song_db',
+      user: 'homestead',
+      password: 'secret'
+    }
   }
 };
 
