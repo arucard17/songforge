@@ -96,6 +96,7 @@ var ComposerView = Backbone.View.extend({
 
         $('.soundsContainer').css('display', 'block').addClass('animated bounceInLeft');
         $('.songContainer').css('display', 'block').addClass('animated bounceInRight');
+        $('.navbar').css('display', 'block').addClass('animated bounceInRight');
         $('.page-header').css('display', 'block').addClass('animated bounceInDown');
 
         $('#play').on('click', $.proxy(this.onPlay, this));
@@ -368,6 +369,7 @@ var ComposerView = Backbone.View.extend({
         $('.soundsContainer').removeClass('animated bounceInDown').addClass('animated bounceOutLeft');
         $('.songContainer').removeClass('animated bounceInDown').addClass('animated bounceOutRight');
         $('.page-header').removeClass('animated bounceInDown').addClass('animated bounceOutUp');
+        $('.navbar').removeClass('animated bounceInDown').addClass('animated bounceOutRight');
     }
 
 });

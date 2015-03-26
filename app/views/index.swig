@@ -148,7 +148,7 @@
                 </div>
             </div>
         </div>
-        <div class="row ">
+        <div class="row">
             <div class="col-lg-10 col-lg-offset-1">
                 <div class="navbar navbar-default">
                     <div class="navbar-header">
