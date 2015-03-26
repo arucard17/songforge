@@ -1,0 +1,119 @@
+
+// Variables
+@pent-columns:  24;
+
+.calc-grid-column(@index) when (@index > 0) {
+  .note-@{index} {
+    margin-left: percentage((@index / @pent-columns));
+  }
+}
+
+.loop-pent-columns(@index) when (@index >= 0) {
+  .calc-grid-column(@index);
+  // next iteration
+  .loop-pent-columns((@index - 1));
+}
+
+// Diseño pentagrama
+.partitura{
+
+	padding: 0.3% 2%;
+
+	.pentagram{
+
+		height: auto;
+		width: 100%;
+		position: relative;
+		margin-top: 5%;
+
+		&:first-child{
+			.line{
+				padding-left: 8%;
+			}
+
+			.division{
+				left: 10%;
+			}
+		}
+
+		.sol{
+			background-image: url('../img/sol.png');
+			position: absolute;
+			height: 144%;
+			width: 5%;
+			margin-top: -2.8%;
+			margin-left: 13px;
+			background-size: 100% 100%;
+			z-index: 2;
+		}
+
+		.compas{
+			font-family: 'Abril Fatface', cursive;
+			position: absolute;
+			left: 9%;
+			top: 28%;
+			font-size: 17px;
+
+			span{
+				display: block;
+				margin-bottom: -4px;
+			}
+		}
+
+		.line{
+			border: 1px solid white;
+			width: 100%;
+			margin: 0.9% 0px;
+
+			&:nth-of-type(odd){
+				border: 1px solid black;
+			}
+
+			.note{
+				position: absolute;
+
+				-webkit-transition: all 0.08s ease-in-out;
+				        transition: all 0.08s ease-in-out;
+
+				&.active{
+					color: #80CDA4;
+
+					// -webkit-animation-name: bounce;
+					// animation-name: bounce;
+					// -webkit-transform-origin: center bottom;
+					// -ms-transform-origin: center bottom;
+					// transform-origin: center bottom;
+					-webkit-animation-name: tada;
+					animation-name: tada;
+				}
+
+			}
+
+			.song-icon-blanca,
+			.song-icon-negra{
+				margin-top: -3.4%;
+				font-size: 236%;
+			}
+			.song-icon-redonda{
+				font-size: 185%;
+				margin-top: -1.6%;
+			}
+			.song-icon-music{
+				font-size: 270%;
+				margin-top: -3.5%;
+			}
+
+		}
+
+		.loop-pent-columns(@pent-columns);
+		
+		.division{
+			position: absolute;
+			top: 10%;
+			left: 2%;
+			height: 80%;
+			border: 1px solid rgb(84, 84, 84);
+		}
+	}
+}
+

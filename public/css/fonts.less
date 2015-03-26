@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "songforge";
+  src:url("../fonts/songforge.eot");
+  src:url("../fonts/songforge.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/songforge.woff") format("woff"),
+    url("../fonts/songforge.ttf") format("truetype"),
+    url("../fonts/songforge.svg#songforge") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@import url(http://fonts.googleapis.com/css?family=Abril+Fatface);
+
+[data-icon]:before {
+  font-family: "songforge" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="song-icon-"]:before,
+[class*=" song-icon-"]:before {
+  font-family: "songforge" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.song-icon-blanca:before {
+  content: "a";
+}
+.song-icon-musical48:before {
+  content: "b";
+}
+.song-icon-negra:before {
+  content: "c";
+}
+.song-icon-redonda:before {
+  content: "d";
+}
+.song-icon-listmusic:before {
+  content: "e";
+}
+.song-icon-sol:before {
+  content: "f";
+}
+.song-icon-do:before {
+  content: "h";
+}
+.song-icon-music:before {
+  content: "i";
+}
