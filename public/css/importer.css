@@ -60,7 +60,7 @@
 }
 body {
   background-color: #eee;
-  overflow: hidden;
+  margin-bottom: 50px;
 }
 #content {
   min-height: 34em;

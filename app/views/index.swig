@@ -61,7 +61,7 @@
         <div class="row">
             <div class="col-lg-6 col-lg-offset-3">
                 <div class="page-header animated bounceInDown">
-                    <h1><span class="logo mdi-av-hearing"></span>SongForge</h1>
+                    <img src="/img/logo.png" alt="Logo" />
                     <p class="lead">Sonidos <span id="addSound" class="btn btn-flab btn-default mdi-av-playlist-add"></span></p>
                 </div>
                 <div class="animated bounceInLeft bs-component table-container-sound">
@@ -146,7 +146,7 @@
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1">
                 <div class="page-header header-new">
-                    <h1><span class="logo mdi-av-hearing"></span>SongForge</h1>
+                    <img src="/img/logo.png" alt="Logo" />
                 </div>
             </div>
         </div>
