@@ -129,7 +129,6 @@ var ComposerView = Backbone.View.extend({
         for(var seq in sequence){
             for(var n in this.sounds){
                 sound = _.find(this.sounds[n].Sounds, function(s){
-                    console.log(sequence[seq], s.id);
                     return sequence[seq] == s.id;
                 });
 
