@@ -68,7 +68,7 @@
                     <table class="table table-striped table-hover ">
                         <thead>
                             <tr>
-                                <th width="40%" class="text-center">Tipo</th>
+                                <th width="40%" class="text-center">Figura</th>
                                 <th width="40%" class="text-center">Nota</th>
                             </tr>
                         </thead>
@@ -94,7 +94,7 @@
                         <form class="form-horizontal">
                             <fieldset>
                                 <div class="form-group">
-                                    <label for="type" class="col-lg-2 control-label">Nombre</label>
+                                    <label for="type" class="col-lg-2 control-label">Figura</label>
                                     <div class="col-lg-10">
                                         <select name="type" id="type"></select>
                                     </div>
