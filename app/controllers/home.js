@@ -32,18 +32,23 @@ router.post('/api/composition', function (req, res, next) {
         model: function(callback){
         	db.Composition.find({where:{id: id }})
             .then(function (comp) {
-                console.log(comp);
                 callback(null, comp);
             })
             .error(function(err){
-                console.log(err);
                 callback(null, {});
             });
             
         },
-        sounds: function(callback){
-            db.Sounds.findAll().then(function (sounds) {
-              callback(null, sounds);
+        notes: function(callback){
+            db.Note.findAll({include: [db.Sounds]}).then(function (notes) {
+              callback(null, notes);
+            }).error(function(err){
+                callback({});
+            });
+        },
+        types: function(callback){
+            db.Type.findAll().then(function (types) {
+              callback(null, types);
             }).error(function(err){
                 callback({});
             });
@@ -82,9 +87,21 @@ router.delete('/api/composition/:id', function (req, res, next) {
 
 });
 
+router.get('/api/notes', function (req, res, next) {
+    db.Note.findAll({include: [db.Sounds]}).then(function (notes) {
+        res.json(notes);
+    });
+});
+
 router.get('/api/sounds', function (req, res, next) {
-  db.Sounds.findAll().then(function (sounds) {
+    db.Sounds.findAll({include: [db.Note, db.Type]}).then(function (sounds) {
       res.json(sounds);
+    });
+});
+
+router.get('/api/types', function (req, res, next) {
+    db.Type.findAll().then(function (types) {
+      res.json(types);
     });
 });
 
@@ -143,12 +160,14 @@ router.post('/api/sound', m, function (req, res, next) {
     var inputs = req.body;
     var file = req.files["file"];
 
+    console.log(inputs);
+
     async.series({
         sound: function(callback){
             if(done){
                 db.Sounds.create({
-                    'name'      : inputs.name.replace(/"/g, ''),
-                    'color'     : inputs.name.replace(/"/g, ''),
+                    'idType'      : Number(inputs.type.replace(/"/g, '')),
+                    'idNote'     : Number(inputs.note.replace(/"/g, '')),
                     'file'      : file.name
                 })
                 .then(function(result){
@@ -162,7 +181,7 @@ router.post('/api/sound', m, function (req, res, next) {
 
         },
         sounds: function(callback){
-            db.Sounds.findAll().then(function (sounds) {
+            db.Sounds.findAll({include: [db.Note, db.Type]}).then(function (sounds) {
                 callback(null, sounds);
             });
         },

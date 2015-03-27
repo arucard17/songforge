@@ -1,25 +1,16 @@
 // Example model
 
 
-module.exports = function (sequelize, DataTypes) {
+module.exports = function (sequelize, DataNotes) {
 
-  var Sounds = sequelize.define('Sounds', {
-    file: DataTypes.STRING,
-    idNote: {
-        type: DataTypes.INTEGER,
-        references: "Note",
-        referencesKey: "id"
-    },
-    idType: {
-        type: DataTypes.INTEGER,
-        references: "Type",
-        referencesKey: "id"
-    },
+  var Note = sequelize.define('Note', {
+    name: DataNotes.STRING,
+    position: DataNotes.STRING,
   }, {
     classMethods: {
       associate: function (models) {
-        Sounds.belongsTo(models.Note, {foreignKey: 'idNote'});
-        Sounds.belongsTo(models.Type, {foreignKey: 'idType'});
+        // example on how to add relations
+        Note.hasMany(models.Sounds, {foreignKey: 'idNote'});
       }
     },
     // don't add the timestamp attributes (updatedAt, createdAt)
@@ -40,9 +31,9 @@ module.exports = function (sequelize, DataTypes) {
     freezeTableName: true,
 
     // define the table's name
-    tableName: 'sounds'
+    tableName: 'note'
   });
 
-  return Sounds;
+  return Note;
 };
 

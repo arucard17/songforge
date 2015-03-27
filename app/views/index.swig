@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1">
                 <div class="page-header animated bounceInDown">
-                    <h1><span class="logo mdi-av-hearing"></span>SongForge</h1>
+                    <img src="/img/logo.png" alt="Logo" />
                 </div>
                 <div class="animated bounceInLeft bs-component table-container">
                     <table class="table table-striped table-hover ">
@@ -68,8 +68,8 @@
                     <table class="table table-striped table-hover ">
                         <thead>
                             <tr>
-                                <th width="80%" class="text-center">Nombre</th>
-                                <th></th>
+                                <th width="40%" class="text-center">Tipo</th>
+                                <th width="40%" class="text-center">Nota</th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
@@ -83,7 +83,6 @@
             </div>
         </div>
 
-        // Modal
         <div class="modal fade" id="modal-sound">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -95,15 +94,15 @@
                         <form class="form-horizontal">
                             <fieldset>
                                 <div class="form-group">
-                                    <label for="name" class="col-lg-2 control-label">Nombre</label>
+                                    <label for="type" class="col-lg-2 control-label">Nombre</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="name" placeholder="Nombre">
+                                        <select name="type" id="type"></select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="color" class="col-lg-2 control-label">Color</label>
+                                    <label for="note" class="col-lg-2 control-label">Nota</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="color" placeholder="Ej. #fffeee">
+                                        <select name="note" id="note"></select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -126,8 +125,11 @@
     </script>
 
     <script type="jquery/template" id="tmpl-row-sound">
-        <tr style="background-color:<%=color %>">
-            <td class="text-center"><%=name %></td>
+        <tr>
+            <td class="text-center">
+                <div class="icon <%=Type.class%>"></div>
+            </td>
+            <td class="text-center"><%=Note.name %></td>
             <td class="actions">
                 <a href="#" data-id="<%=id %>" id="playSound" class="btn btn-fab btn-fab-mini btn-raised btn-sm btn-success mdi-av-play-arrow">
                 </a>
@@ -205,8 +207,6 @@
             <span><%=value2 %></span>
         </div>
     </script>
-    
-    {# <div class="note note-9 icon song-icon-negra"></div> #}
 
     <script type="jquery/template" id="tmpl-division">
         <div class="division note-<%=index%>"></div>
@@ -216,8 +216,8 @@
         <li class="dropdown">
             <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><%=name %> <b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <% for(var i in notas){ %>
-                    <li class="note-add"> <a title="Negra" data-parent="<%=id %>" data-id="<%=notas[i].id %>"><div class="note icon song-icon-negra"></div></a></li>
+                <% for(var i in Sounds){ %>
+                    <li class="note-add"> <a title="<%=Sounds[i].type.name %>" data-parent="<%=id %>" data-id="<%=Sounds[i].id %>"><div class="note icon <%=Sounds[i].type.class %>"></div></a></li>
                 <% } %>
             </ul>
         </li>
@@ -233,7 +233,7 @@
     </script>
 
     <script type="jquery/template" id="tmpl-panel-element">
-        <div data-id="<%=sound._id %>" class="animated note note-<%=index %> icon song-icon-negra"></div>
+        <div data-id="<%=sound._id %>" class="animated note note-<%=index %> icon <%=sound.type.class %>"></div>
     </script>
 
 

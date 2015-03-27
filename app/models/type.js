@@ -3,23 +3,13 @@
 
 module.exports = function (sequelize, DataTypes) {
 
-  var Sounds = sequelize.define('Sounds', {
-    file: DataTypes.STRING,
-    idNote: {
-        type: DataTypes.INTEGER,
-        references: "Note",
-        referencesKey: "id"
-    },
-    idType: {
-        type: DataTypes.INTEGER,
-        references: "Type",
-        referencesKey: "id"
-    },
+  var Type = sequelize.define('Type', {
+    name: DataTypes.STRING,
+    class: DataTypes.STRING
   }, {
     classMethods: {
       associate: function (models) {
-        Sounds.belongsTo(models.Note, {foreignKey: 'idNote'});
-        Sounds.belongsTo(models.Type, {foreignKey: 'idType'});
+        Type.hasMany(models.Sounds, {foreignKey: 'idType'});
       }
     },
     // don't add the timestamp attributes (updatedAt, createdAt)
@@ -40,9 +30,9 @@ module.exports = function (sequelize, DataTypes) {
     freezeTableName: true,
 
     // define the table's name
-    tableName: 'sounds'
+    tableName: 'type'
   });
 
-  return Sounds;
+  return Type;
 };
 

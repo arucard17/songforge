@@ -10,6 +10,9 @@ var SoundView = Backbone.View.extend({
 
         this.path = '/sound/';
 
+        this.notes = [];
+        this.types = [];
+
         // Templates
         this.templateRow = _.template($('#tmpl-row-sound').html());
 
@@ -22,7 +25,15 @@ var SoundView = Backbone.View.extend({
     },
 
     loadData: function(){
+        var that = this;
+
         app.pushData('/api/sounds', {}, $.proxy(this.handleData, this), 'GET');
+        app.pushData('/api/types', {}, function (data){
+            that.types = data;
+        }, 'GET');
+        app.pushData('/api/notes', {}, function(data){
+            that.notes = data;
+        }, 'GET');
     },
 
     handleData: function(data){
@@ -47,6 +58,16 @@ var SoundView = Backbone.View.extend({
         });
         this.$modal.off('shown.bs.modal').on('shown.bs.modal', function () {
             $('#name').focus();
+
+            $('#note').empty();
+            for(var n in that.notes){
+                $('#note').append('<option value="'+ that.notes[n].id +'">'+ that.notes[n].name +'</option>');
+            }
+
+            $('#type').empty();
+            for(var n in that.types){
+                $('#type').append('<option value="'+ that.types[n].id +'">'+ that.types[n].name +'</option>');
+            }
         });
 
         this.$modal.on('hidden.bs.modal', function (){
@@ -227,8 +248,8 @@ var SoundView = Backbone.View.extend({
         var that = this;
 
         var data = {
-            name: $('#name', this.$modal).val(),
-            color: $('#color', this.$modal).val(),
+            type: $('#type', this.$modal).val(),
+            note: $('#note', this.$modal).val(),
             file: $('#soundFile', this.$modal)[0].files[0]
         };
 
