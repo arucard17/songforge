@@ -3,6 +3,7 @@ var gulp = require('gulp'),
   livereload = require('gulp-livereload'),
   less = require('gulp-less');
 
+// Development
 gulp.task('less', function () {
   gulp.src('./public/css/importer.less')
     .pipe(less())
@@ -26,8 +27,18 @@ gulp.task('develop', function () {
   });
 });
 
+gulp.task('less-prod', function () {
+  gulp.src('./public/css/importer.less')
+    .pipe(less())
+    .pipe(gulp.dest('./public/css'));
+});
+
 gulp.task('default', [
   'less',
   'develop',
   'watch'
+]);
+
+gulp.task('prod', [
+  'less-prod'
 ]);
