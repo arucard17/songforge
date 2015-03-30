@@ -162,8 +162,10 @@
                     </div>
                     <div class="navbar-collapse collapse navbar-responsive-collapse">
                         <ul class="nav navbar-nav">
-
                         </ul>
+                        <form class="navbar-form navbar-right">
+                            <select id="compas" class="form-control col-lg-10"></select>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -173,20 +175,6 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="partitura">
-                            <div class="pentagram">
-                                <div class="sol"></div>
-                                <div class="line"></div>
-                                 <div class="line"></div>
-                                <div class="line"></div>
-                                 <div class="line"></div>
-                                <div class="line"></div>
-                                 <div class="line"></div>
-                                <div class="line"></div>
-                                 <div class="line"></div>
-                                <div class="line"></div>
-                                 <div class="line"></div>
-                                <div class="line"></div>
-                            </div>
                         </div>
                     </div>
                     <div class="panel-footer">
@@ -201,15 +189,52 @@
         </div>
     </script>
 
+    <script type="jquery/template" id="tmpl-pentagrama">
+        <div data-pent="<%=index %>" class="pentagram">
+            <div class="line"></div>
+             <div class="line"></div>
+            <div class="line"></div>
+             <div class="line"></div>
+            <div class="line"></div>
+             <div class="line"></div>
+            <div class="line"></div>
+             <div class="line"></div>
+            <div class="line"></div>
+             <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </script>
+
+    <script type="jquery/template" id="tmpl-pentagrama-clave">
+        <div data-pent="<%=index %>" class="pentagram">
+            <div class="clave <%=clave %>"></div>
+            <div class="line"></div>
+             <div class="line"></div>
+            <div class="line"></div>
+             <div class="line"></div>
+            <div class="line"></div>
+             <div class="line"></div>
+            <div class="line"></div>
+             <div class="line"></div>
+            <div class="line"></div>
+             <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </script>
+    
     <script type="jquery/template" id="tmpl-compas">
         <div class="compas">
-            <span><%=value1 %></span>
-            <span><%=value2 %></span>
+            <span><%=name.split("/")[0] %></span>
+            <span><%=name.split("/")[1] %></span>
         </div>
     </script>
 
     <script type="jquery/template" id="tmpl-division">
         <div class="division note-<%=index%>"></div>
+    </script>
+
+    <script type="jquery/template" id="tmpl-compas-option">
+        <option value="<%=id %>" ><%=name %></option>
     </script>
     
     <script type="jquery/template" id="tmpl-menu">
