@@ -32,12 +32,12 @@ var ComposerView = Backbone.View.extend({
             limitClave: 21,
 
             // Limite sin Clave
-            limit: 50
+            limit: 24
         };
 
         this.$panels = $('.songContainer .panel-body');
         this.$partitura = $('.partitura');
-        this.$save = $('#save');
+        this.$save = $('#save'); 
         this.$navBar = $('.nav.navbar-nav');
         this.$compas = $('#compas');
 
