@@ -302,7 +302,7 @@ var ComposerView = Backbone.View.extend({
 
     upMaxPentagram: function(){
         var $pent = this.getLastPentagram();
-        var count = $('.note', $pent).length;
+        var count = $('.note, .division', $pent).length;
 
         var upMax = false;
 
