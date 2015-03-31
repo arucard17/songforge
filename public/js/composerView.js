@@ -37,7 +37,7 @@ var ComposerView = Backbone.View.extend({
 
         this.$panels = $('.songContainer .panel-body');
         this.$partitura = $('.partitura');
-        this.$save = $('#save');
+        this.$save = $('#save'); 
         this.$navBar = $('.nav.navbar-nav');
         this.$compas = $('#compas');
 
