@@ -9,8 +9,7 @@ var ComposerView = Backbone.View.extend({
 
         var that = this;
 
-        this.compases = [{id: 1, name: "2/4", value: function(){return eval(this.name); } }, {id: 2, name: "3/4", value: function(){return eval(this.name); } }, {id: 4, name: "4/4", value: function(){return eval(this.name); } }, ]; 
-        this.compas = null;
+        this.compases = [{id: 1, name: "2/4", value: function(){return Number(this.name.split('/')[0]); } }, {id: 2, name: "3/4", value: function(){return Number(this.name.split('/')[0]); } }, {id: 4, name: "4/4", value: function(){return Number(this.name.split('/')[0]); } }, ]; 
 
         this.secuencia = [];
         this.audio = null; 
@@ -27,12 +26,13 @@ var ComposerView = Backbone.View.extend({
             compas : null,
             pent : 0,
             count: 0,
+            countType: 0,
 
             // Limite con Clave
             limitClave: 21,
 
             // Limite sin Clave
-            limit: 50
+            limit: 24
         };
 
         this.$panels = $('.songContainer .panel-body');
@@ -47,6 +47,7 @@ var ComposerView = Backbone.View.extend({
         this.templatePentagramaConClave = _.template($('#tmpl-pentagrama-clave').html());
         this.templateOption = _.template($('#tmpl-compas-option').html());
         this.templateCompas = _.template($('#tmpl-compas').html());
+        this.templateDivision = _.template($('#tmpl-division').html());
 
         $('#play').on('click', $.proxy(this.onPlay, this));
         this.$save.on('click', $.proxy(this.onSave, this));
@@ -125,7 +126,6 @@ var ComposerView = Backbone.View.extend({
         var that = this;
 
         this.$navBar.empty();
-
         this.sounds = data;
 
         for(var i in this.sounds){
@@ -161,12 +161,19 @@ var ComposerView = Backbone.View.extend({
     setCompas: function(e){
         var that = this;
         var id = Number(that.$compas.val());
+
+        this.cleanPentagram();
+
         
         this.partitura.compas = _.find(this.compases, function(compas){
             return compas.id == id;
         });
 
-        this.$pentagram.append(this.templateCompas(this.partitura.compas));
+        //console.log(this.getLastPentagram(),this.partitura.compas);
+
+        (this.getLastPentagram()).append(this.templateCompas(this.partitura.compas));
+
+        this.updateCompas();
 
         // addToPentagram(this.templateCompas(this.compas), 2);
     },
@@ -226,8 +233,6 @@ var ComposerView = Backbone.View.extend({
                 return id == sound.id;
             });
                 
-            console.log(sound);
-
             if(sound)
                 this.addSound(_.cloneToDepth(sound), note);
             else
@@ -254,11 +259,40 @@ var ComposerView = Backbone.View.extend({
         }
     },
 
+    updateCompas: function(){
+        for(var s in this.secuencia){
+            this.secuencia[s].$el = this.addToPentagram(this.secuencia[s], (Number(s)+1)); 
+        }
+    },
+
+    cleanPentagram: function(){
+        this.$partitura.empty();
+
+        this.partitura.pent= 0;
+        this.partitura.count= 0;
+        this.partitura.countType= 0;
+        
+        this.addPentagram('sol');
+    },
+
     addToPentagram: function(sound, index){
         if(this.upMaxPentagram())
             this.addPentagram();
         
         this.partitura.count++;
+
+        if(this.partitura.compas){
+            if(this.partitura.compas.value() <= this.partitura.countType ){
+                this.partitura.countType = 0;
+                this.addDivision(this.partitura.count);
+                
+                this.partitura.count++;
+            }
+            
+            this.partitura.countType += sound.type.value;
+//            console.log(this.partitura.countType, sound.type.value, this.partitura.compas.value());
+            
+        }
 
         var $el = $(this.templatePanel({"sound": sound, "index": this.partitura.count}));
         this.renderOne($el, this.getLastPentagram(), sound.parent.position);
@@ -273,7 +307,6 @@ var ComposerView = Backbone.View.extend({
         var upMax = false;
 
         if($pent.find('.clave').length > 0){
-            console.log(this.partitura.limitClave == count, this.partitura.limitClave, count);
             if( this.partitura.limitClave == count)
                 upMax = true;
         }else if(this.partitura.limit == count)
@@ -297,6 +330,13 @@ var ComposerView = Backbone.View.extend({
         }else{
             this.$partitura.append(this.templatePentagrama({'index': this.partitura.pent}));
         }
+    },
+
+    addDivision: function(index){
+        var $pentagram = this.getLastPentagram();
+
+        $('.compas', $pentagram).after(this.templateDivision({'index': index}));
+
     },
 
     removePentagram: function(){
