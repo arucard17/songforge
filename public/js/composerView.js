@@ -282,7 +282,7 @@ var ComposerView = Backbone.View.extend({
         this.partitura.count++;
 
         if(this.partitura.compas){
-            if(this.partitura.compas.value() <= this.partitura.countType ){
+            if(this.partitura.compas.value() <= (this.partitura.countType + sound.type.value) ){
                 this.partitura.countType = 0;
                 this.addDivision(this.partitura.count);
                 
@@ -290,7 +290,6 @@ var ComposerView = Backbone.View.extend({
             }
             
             this.partitura.countType += sound.type.value;
-//            console.log(this.partitura.countType, sound.type.value, this.partitura.compas.value());
             
         }
 
