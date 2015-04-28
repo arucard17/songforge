@@ -56,6 +56,8 @@ var ComposerView = Backbone.View.extend({
 
         this.addPentagram('sol');
 
+        this.setMenuCompas();
+
         if(id){
             this.loadModel(id, $.proxy(this.init, this));
         }else{
@@ -68,7 +70,6 @@ var ComposerView = Backbone.View.extend({
         this.isBtnActive();
         this.setupControl();
         this.updateSaveStatus();
-        this.setMenuCompas();
     },
 
     introAnimation: function(){
@@ -106,6 +107,12 @@ var ComposerView = Backbone.View.extend({
             // Muestro los sonidos
             that.setNavBar(data.notes);
 
+            // defino el compas
+            if(data.model.compas){
+                $('option[value='+ data.model.compas +']', that.$compas).prop('selected', 'selected');
+                that.$compas.trigger('change');
+            }
+
             // Cargo la secuencia
             that.model.id = data.model.id;
             that.model.author = data.model.author;
@@ -113,7 +120,7 @@ var ComposerView = Backbone.View.extend({
             var sounds = that.getSequenceSound(data);
 
             for(var i in sounds){
-                that.addSound(_.cloneToDepth(sounds[i]), sounds[i].note );
+                that.addSound(_.cloneToDeep(sounds[i]), sounds[i].note );
             }
 
             cb();
@@ -130,9 +137,11 @@ var ComposerView = Backbone.View.extend({
 
         for(var i in this.sounds){
             this.sounds[i].Sounds = _.map(this.sounds[i].Sounds, function(sound){
+
                 sound.type = _.find(that.types, function(type){
                     return type.id == sound.idType
                 });
+                
                 return sound;
             });
         }
@@ -234,13 +243,12 @@ var ComposerView = Backbone.View.extend({
             });
                 
             if(sound)
-                this.addSound(_.cloneToDepth(sound), note);
+                this.addSound(_.cloneToDeep(sound), note);
             else
                 $.snackbar({content: "Error: no se encontró el sonido", timeout:3000});
 
         }else
             $.snackbar({content: "Error: no se encontró la nota"+ data.error, timeout:3000});
-
 
     },
 
@@ -249,19 +257,47 @@ var ComposerView = Backbone.View.extend({
             sound.audio = new Audio();
             sound.audio.autoplay = false;
             sound.audio.src = this.path + sound.file;
-            sound.parent = parent;
+            sound.parent = this.getParent(sound, parent);
             sound._id = "nota_" + (this.secuencia.length+1);
 
-            sound.$el = this.addToPentagram(sound, (this.secuencia.length+1));
+            sound.$el = this.addToPentagram(sound);
+
+            if(sound.$el === false)
+                return;
 
             this.secuencia.push(sound);
             this.updateSaveStatus();
         }
     },
 
+    getParent: function (sound, parent){
+        parent = _.cloneToDeep(parent);
+        if(parent.position == 0 && parent.id == 8){
+            switch(Number(sound.type.id)){
+                case 5: // Negra
+                    parent.position = 2;
+                    break;
+                case 6: // Blanca
+                    parent.position = 5;
+                    break;
+                case 7: // Redonda
+                    parent.position = 3;
+                    break;
+                case 8: // Corchea
+                    parent.position = 4;
+                    break; 
+            }
+
+        }
+        
+        return parent;
+    },
+
     updateCompas: function(){
         for(var s in this.secuencia){
-            this.secuencia[s].$el = this.addToPentagram(this.secuencia[s], (Number(s)+1)); 
+            tmp = this.addToPentagram(this.secuencia[s]);
+            if(tmp === false) continue;
+            this.secuencia[s].$el = tmp; 
         }
     },
 
@@ -275,22 +311,21 @@ var ComposerView = Backbone.View.extend({
         this.addPentagram('sol');
     },
 
-    addToPentagram: function(sound, index){
+    addToPentagram: function(sound){
         if(this.upMaxPentagram())
             this.addPentagram();
-        
-        this.partitura.count++;
 
+        this.partitura.count++;
+        
         if(this.partitura.compas){
             if(this.partitura.compas.value() <= (this.partitura.countType + sound.type.value) ){
                 this.partitura.countType = 0;
                 this.addDivision(this.partitura.count);
-                
+
                 this.partitura.count++;
             }
-            
+
             this.partitura.countType += sound.type.value;
-            
         }
 
         var $el = $(this.templatePanel({"sound": sound, "index": this.partitura.count}));
@@ -317,7 +352,7 @@ var ComposerView = Backbone.View.extend({
 
     renderOne: function($el, $parent, position){
         $el.appendTo($('.line:eq('+ position +')', $parent));
-        $('#close', $el).on('click', $.proxy(this.onRemovePanel, this));
+        $($el).on('dblclick', $.proxy(this.onRemovePanel, this));
     },
 
     addPentagram: function(clave){
@@ -365,13 +400,7 @@ var ComposerView = Backbone.View.extend({
     },
 
     removeElementPanel: function($el){
-        $el.removeClass('animated rollIn')
-            .addClass('animated rollOut');
-
-        setTimeout(function(){
-            $el.remove();
-        }, 1000);
-
+        $el.remove();
     },
 
     onPlay: function(e){
@@ -443,11 +472,12 @@ var ComposerView = Backbone.View.extend({
 
     onSave: function(){
         var that = this;
+
         var sec = _.map(this.secuencia, function(el){
             return el.id;
         });
 
-        app.pushData('/api/save', { "sequence": sec, "model" : this.model }, function(data){
+        app.pushData('/api/save', { "sequence": sec, "compas": this.partitura.compas, "model" : this.model }, function(data){
             if(data.success){
                 that.model.id = data.id;
                 app.router.navigate("/"+ that.model.id);
