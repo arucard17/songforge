@@ -10,4 +10,4 @@ public/components
 #*.mp3
 
 #Sublime Text
-_songforge.sublime-*
+songforge.sublime-*
