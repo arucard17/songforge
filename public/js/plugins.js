@@ -1,6 +1,6 @@
 
 // DeepClone
-_.cloneToDepth = _.clone = function(obj, depth) {
+_.cloneToDeep = _.clone = function(obj, depth) {
   if (typeof obj !== 'object') return obj;
   var clone = _.isArray(obj) ? obj.slice() : _.extend({}, obj);
   if (!_.isUndefined(depth) && (depth > 0)) {
