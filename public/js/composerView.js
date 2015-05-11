@@ -386,7 +386,8 @@ var ComposerView = Backbone.View.extend({
     },
   
     onRemovePanel: function(e){
-        $el = $(e.currentTarget).parent();
+        
+        $el = $(e.currentTarget);
         var id = $el.data('id');
 
         for(var i in this.secuencia){
