@@ -1,8 +1,8 @@
 @charset "UTF-8";
-@import url(http://fonts.googleapis.com/css?family=Abril+Fatface);
 /**
  * Archivo principal LESS
  */
+@import url(http://fonts.googleapis.com/css?family=Abril+Fatface);
 @font-face {
   font-family: "songforge";
   src: url("../fonts/songforge.eot");
@@ -46,9 +46,6 @@
 .song-icon-redonda:before {
   content: "d";
 }
-.song-icon-listmusic:before {
-  content: "e";
-}
 .song-icon-sol:before {
   content: "f";
 }
@@ -57,6 +54,33 @@
 }
 .song-icon-music:before {
   content: "i";
+}
+.song-icon-headset-sound-streamline:before {
+  content: "e";
+}
+.song-icon-music52:before {
+  content: "g";
+}
+.song-icon-circle:before {
+  content: "j";
+}
+.song-icon-silence-negra:before {
+  content: "k";
+}
+.song-icon-silence-corchea:before {
+  content: "o";
+}
+.song-icon-silence-blanca:before {
+  content: "p";
+}
+.song-icon-silence-redonda:before {
+  content: "m";
+}
+.song-icon-note:before {
+  content: "l";
+}
+.song-icon-blanca-puntillo:before {
+  content: "n";
 }
 body {
   background-color: #eee;
@@ -322,7 +346,7 @@ body {
   width: 100%;
   margin: 0.9% 0px;
 }
-.partitura .pentagram .line:nth-of-type(odd) {
+.partitura .pentagram .line.vis {
   border: 1px solid black;
 }
 .partitura .pentagram .line .note {
@@ -335,18 +359,45 @@ body {
   -webkit-animation-name: tada;
   animation-name: tada;
 }
+.partitura .pentagram .line .note:hover {
+  cursor: pointer;
+}
 .partitura .pentagram .line .song-icon-blanca,
 .partitura .pentagram .line .song-icon-negra {
   margin-top: -3.4%;
   font-size: 236%;
 }
 .partitura .pentagram .line .song-icon-redonda {
-  font-size: 185%;
+  font-size: 183%;
   margin-top: -1.6%;
 }
 .partitura .pentagram .line .song-icon-music {
   font-size: 270%;
   margin-top: -3.5%;
+}
+.partitura .pentagram .line .song-icon-note {
+  font-size: 227%;
+  margin-top: -3.1%;
+}
+.partitura .pentagram .line .song-icon-blanca-puntillo {
+  margin-top: -5.2%;
+  font-size: 356%;
+}
+.partitura .pentagram .line .song-icon-silence-blanca {
+  margin-top: -17px;
+  font-size: 25px;
+}
+.partitura .pentagram .line .song-icon-silence-negra {
+  font-size: 410%;
+  margin-top: -3px;
+}
+.partitura .pentagram .line .song-icon-silence-corchea {
+  font-size: 262%;
+  margin-top: -1%;
+}
+.partitura .pentagram .line .song-icon-silence-redonda {
+  margin-top: -9px;
+  font-size: 24px;
 }
 .partitura .pentagram .note-24 {
   margin-left: 100%;
