@@ -192,15 +192,15 @@
     <script type="jquery/template" id="tmpl-pentagrama">
         <div data-pent="<%=index %>" class="pentagram">
             <div class="line"></div>
-             <div class="line"></div>
+             <div class="line vis"></div>
             <div class="line"></div>
-             <div class="line"></div>
+             <div class="line vis"></div>
             <div class="line"></div>
-             <div class="line"></div>
+             <div class="line vis"></div>
             <div class="line"></div>
-             <div class="line"></div>
+             <div class="line vis"></div>
             <div class="line"></div>
-             <div class="line"></div>
+             <div class="line vis"></div>
             <div class="line"></div>
         </div>
     </script>
@@ -209,15 +209,15 @@
         <div data-pent="<%=index %>" class="pentagram">
             <div class="clave <%=clave %>"></div>
             <div class="line"></div>
-             <div class="line"></div>
+             <div class="line vis"></div>
             <div class="line"></div>
-             <div class="line"></div>
+             <div class="line vis"></div>
             <div class="line"></div>
-             <div class="line"></div>
+             <div class="line vis"></div>
             <div class="line"></div>
-             <div class="line"></div>
+             <div class="line vis"></div>
             <div class="line"></div>
-             <div class="line"></div>
+             <div class="line vis"></div>
             <div class="line"></div>
         </div>
     </script>
