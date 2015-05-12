@@ -202,6 +202,7 @@
             <div class="line"></div>
              <div class="line vis"></div>
             <div class="line"></div>
+            <div class="line"></div>
         </div>
     </script>
 
@@ -218,6 +219,7 @@
              <div class="line vis"></div>
             <div class="line"></div>
              <div class="line vis"></div>
+            <div class="line"></div>
             <div class="line"></div>
         </div>
     </script>
