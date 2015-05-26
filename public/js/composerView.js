@@ -327,7 +327,7 @@ var ComposerView = Backbone.View.extend({
 
             this.partitura.countType += sound.type.value;
         }
-
+        console.log(sound.parent.position, typeof sound.parent.position);
         var $el = $(this.templatePanel({"sound": sound, "index": this.partitura.count}));
         this.renderOne($el, this.getLastPentagram(), sound.parent.position);
 
