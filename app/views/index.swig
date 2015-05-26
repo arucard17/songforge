@@ -260,7 +260,7 @@
     </script>
 
     <script type="jquery/template" id="tmpl-panel-element">
-        <div data-id="<%=sound._id %>" class="animated note note-<%=index %> icon <%=sound.type.class %>"></div>
+        <div data-id="<%=sound._id %>" class="animated note note-<%=index %> icon <%= sound.parent.position < 11 ? sound.type.class : sound.type.class +'-do'  %>"></div>
     </script>
 
 
