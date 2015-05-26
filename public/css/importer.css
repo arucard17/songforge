@@ -2,7 +2,6 @@
 /**
  * Archivo principal LESS
  */
-@import url(http://fonts.googleapis.com/css?family=Abril+Fatface);
 @font-face {
   font-family: "songforge";
   src: url("../fonts/songforge.eot");
@@ -81,6 +80,21 @@
 }
 .song-icon-blanca-puntillo:before {
   content: "n";
+}
+.song-icon-blanca-puntillo-do:before {
+  content: "n";
+}
+.song-icon-note-do:before {
+  content: "q";
+}
+.song-icon-blanca-do:before {
+  content: "r";
+}
+.song-icon-negra-do:before {
+  content: "s";
+}
+.song-icon-redonda-do:before {
+  content: "t";
 }
 body {
   background-color: #eee;
@@ -363,23 +377,28 @@ body {
   cursor: pointer;
 }
 .partitura .pentagram .line .song-icon-blanca,
-.partitura .pentagram .line .song-icon-negra {
+.partitura .pentagram .line .song-icon-negra,
+.partitura .pentagram .line .song-icon-blanca-do,
+.partitura .pentagram .line .song-icon-negra-do {
   margin-top: -3.4%;
   font-size: 236%;
 }
-.partitura .pentagram .line .song-icon-redonda {
-  font-size: 183%;
-  margin-top: -1.6%;
+.partitura .pentagram .line .song-icon-redonda,
+.partitura .pentagram .line .song-icon-redonda-do {
+  font-size: 152%;
+  margin-top: -1.3%;
 }
 .partitura .pentagram .line .song-icon-music {
   font-size: 270%;
   margin-top: -3.5%;
 }
-.partitura .pentagram .line .song-icon-note {
+.partitura .pentagram .line .song-icon-note,
+.partitura .pentagram .line .song-icon-note-do {
   font-size: 227%;
   margin-top: -3.1%;
 }
-.partitura .pentagram .line .song-icon-blanca-puntillo {
+.partitura .pentagram .line .song-icon-blanca-puntillo,
+.partitura .pentagram .line .song-icon-blanca-puntillo-do {
   margin-top: -5.2%;
   font-size: 356%;
 }
